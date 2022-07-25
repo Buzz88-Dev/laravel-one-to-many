@@ -1,7 +1,6 @@
 @extends('admin.layouts.base')
 
 @section('mainContent')
-    Ciao
     <table class="table table-striped">
         <thead>
             <tr>
