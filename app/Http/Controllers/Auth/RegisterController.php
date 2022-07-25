@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
 use App\Models\User;
-use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Models\UserDetails;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
 {
@@ -52,7 +53,10 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],  // confirmed fra un confronto fra la password inserita e quella di conferma
+            'password' => ['required', 'string', 'min:8', 'confirmed'],  // confirmed fra un confronto fra la password inserita e quella di conferma; analizzare register.blade.php
+            'address' => ['string', 'max: 100'],
+            'phone' => ['string', 'max: 20'],
+            'birth' => ['date'],
         ]);
     }
 
@@ -64,10 +68,22 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        //
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+
+        // creo UserDetails e devo mettere in relazione la tabella users con users_details (guardare il file con le tabelle creato in phpMyAdmin)
+        UserDetails::create([   // importare la classe UserDetails
+            'user_id' => $user->id,    // una volta che mi son registrato ($user), passo alla tabella users_details l id di $user appena creato
+            'address' => $data['address'],
+            'phone' => $data['phone'],
+            'birth' => $data['birth'],
+        ]);
+
+        return $user;
+
     }
 }
