@@ -30,5 +30,7 @@ Route::middleware('auth')
     ->group(function () {
         Route::get('/', 'AdminController@dashboard')->name('dashboard');    // è come se scrivessi name('admin.dashboard');   --- admin. lo trovo in ->name()
         Route::resource('posts', 'PostController');  // tutti i controlli che si trovano in PostController si trovano sotto la cartella Admin; il nome viene indicato in ->namespace('Admin')
+        Route::get('users', 'UserController@index')->name('users.index');   // ho definito solo una rotta che ci è data dalla funzione index() in UserController.php; utilizzo il get e non il resource perche non me ne servono 7 (rotte)
+        Route::resource('categories', 'CategoryController');
     });
 // con questo codice definisco i prefissi

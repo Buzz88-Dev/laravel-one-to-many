@@ -7,12 +7,11 @@
                 <th>id</th>
                 <th>Slug</th>
                 <th>Title</th>
-                <th colspan="3">Action</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($posts as $post)
-                <tr>
+                <tr data-id="{{ $post->id }}">
                     <td>{{ $post->id}} </td>
                     <td>{{ $post->slug}} </td>
                     <td>{{ $post->title}} </td>
